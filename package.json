@@ -1,0 +1,16 @@
+{
+  "enabled-engines": ["flink"],
+  "script": {
+    "main": "proj.sqrl"
+  },
+  "compiler": {
+    "compile-flink-plan": false
+  },
+  "engines": {
+    "flink": {
+      "config": {
+        "table.exec.source.idle-timeout": "60s"
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+CREATE TABLE src_datagen (
+  id        BIGINT,
+  user_id   INT,
+  ts_millis BIGINT,
+  action    STRING,
+  amount    DOUBLE,
+  is_active BOOLEAN
+) WITH (
+  'connector' = 'datagen',
+  'rows-per-second' = '500',
+
+  'fields.id.kind' = 'random',
+  'fields.id.min' = '1',
+  'fields.id.max' = '999',
+
+  'fields.user_id.kind' = 'random',
+  'fields.user_id.min' = '1',
+  'fields.user_id.max' = '99',
+
+  'fields.ts_millis.kind' = 'random',
+  'fields.ts_millis.min' = '1704067200000',
+  'fields.ts_millis.max' = '1735689600000',
+
+  'fields.action.kind' = 'random',
+  'fields.action.length' = '8',
+
+  'fields.amount.kind' = 'random',
+  'fields.amount.min' = '0',
+  'fields.amount.max' = '10000',
+
+  'fields.is_active.kind' = 'random'
+);
+
+CREATE TABLE sink_fs_json (
+  id          BIGINT,
+  user_id     INT,
+  ts_millis   BIGINT,
+  action      STRING,
+  amount      DOUBLE,
+  is_active   BOOLEAN
+) WITH (
+  'connector' = 'filesystem',
+  'path' = 's3a://ferenc-hadoop-write/dummy-job',
+  'format' = 'flexible-json',
+  'sink.rolling-policy.file-size' = '5MB',
+  'sink.rolling-policy.rollover-interval' = '1 min'
+);
+
+EXPORT src_datagen TO sink_fs_json;
