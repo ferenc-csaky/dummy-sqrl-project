@@ -31,19 +31,4 @@ CREATE TABLE src_datagen (
   'fields.is_active.kind' = 'random'
 );
 
-CREATE TABLE sink_fs_json (
-  id          BIGINT,
-  user_id     INT,
-  ts_millis   BIGINT,
-  action      STRING,
-  amount      DOUBLE,
-  is_active   BOOLEAN
-) WITH (
-  'connector' = 'filesystem',
-  'path' = 's3a://ferenc-hadoop-write-test-bucket/dummy-job',
-  'format' = 'flexible-json',
-  'sink.rolling-policy.file-size' = '5MB',
-  'sink.rolling-policy.rollover-interval' = '1 min'
-);
-
-EXPORT src_datagen TO sink_fs_json;
+EXPORT src_datagen TO sinks.{{sink-type}}_sink;

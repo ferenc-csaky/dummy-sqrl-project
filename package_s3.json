@@ -1,7 +1,10 @@
 {
   "enabled-engines": ["flink"],
   "script": {
-    "main": "proj.sqrl"
+    "main": "proj.sqrl",
+    "config": {
+      "sink-type": "s3"
+    }
   },
   "compiler": {
     "compile-flink-plan": false
