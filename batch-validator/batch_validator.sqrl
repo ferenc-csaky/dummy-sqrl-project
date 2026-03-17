@@ -1,0 +1,16 @@
+CREATE TABLE DummyInput (
+    id   BIGINT,
+    name STRING
+) WITH (
+    'connector' = 'datagen',
+    'number-of-rows' = '100'
+);
+
+CREATE TABLE PrintOutput (
+    id    BIGINT,
+    name  STRING
+) WITH (
+    'connector' = 'print'
+);
+
+INSERT INTO PrintOutput SELECT * FROM DummyInput ORDER BY id;
