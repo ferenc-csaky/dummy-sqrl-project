@@ -1,0 +1,39 @@
+CREATE TABLE InA (
+    id   BIGINT,
+    name STRING
+) WITH (
+    'connector' = 'datagen',
+    'number-of-rows' = '5',
+    'rows-per-second' = '1'
+);
+
+CREATE TABLE InB (
+    id   BIGINT,
+    name STRING
+) WITH (
+    'connector' = 'datagen',
+    'number-of-rows' = '5',
+    'rows-per-second' = '1'
+);
+
+CREATE TABLE OutA (
+    id    BIGINT,
+    name  STRING
+) WITH (
+    'connector' = 'print',
+    'print-identifier' = 'OutA'
+);
+
+CREATE TABLE OutB (
+    id    BIGINT,
+    name  STRING
+) WITH (
+    'connector' = 'print',
+    'print-identifier' = 'OutB'
+);
+
+INSERT INTO `OutA` SELECT * FROM `InA`;
+
+NEXT_BATCH;
+
+INSERT INTO `OutB` SELECT * FROM `InB`;
